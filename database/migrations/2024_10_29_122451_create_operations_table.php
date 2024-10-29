@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Particular::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(EnergySource::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Particular::class)->constrained('particulars')->cascadeOnDelete();
+            $table->foreignIdFor(EnergySource::class)->constrained('energy_sources')->cascadeOnDelete();
             $table->string('name');
             $table->smallInteger('land_amount');
             $table->smallInteger('weight');

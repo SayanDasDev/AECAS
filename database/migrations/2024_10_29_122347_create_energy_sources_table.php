@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('energy_sources', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Particular::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Particular::class)->constrained('particulars')->cascadeOnDelete();
             $table->string('name');
             $table->string('unit');
             $table->decimal('energy_equivalent', 8, 2);
