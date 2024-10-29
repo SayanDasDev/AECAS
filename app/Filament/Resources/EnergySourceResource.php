@@ -7,6 +7,7 @@ use App\Filament\Resources\EnergySourceResource\RelationManagers;
 use App\Models\EnergySource;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -33,9 +34,10 @@ class EnergySourceResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('unit')
                     ->required()
+                    ->live()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('energy_equivalent')
-                    ->suffix(' MJ/unit')
+                    ->suffix(fn (Get $get): string => ' MJ/' . ($get('unit') ?? 'unit'))
                     ->required()
                     ->numeric()
                     ->numeric(),
