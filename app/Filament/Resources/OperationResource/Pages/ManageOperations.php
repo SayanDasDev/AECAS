@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\OperationResource\Pages;
 
 use App\Filament\Resources\OperationResource;
+use App\Forms\Components\EnergyValue;
+use App\Http\Helper;
 use App\Models\EnergySource;
 use Filament\Actions;
 use Filament\Forms;
@@ -15,18 +17,6 @@ use Ramsey\Uuid\Type\Decimal;
 class ManageOperations extends ManageRecords
 {
   protected static string $resource = OperationResource::class;
-
-  protected function calculateEnergy(
-    float $land_amount,
-    float $weight,
-    float $time_of_operation,
-    float $frequency,
-    float $lifespan,
-    float $MU_count,
-    float $fuel_consumption_rate
-  ): float {
-    return $land_amount * $weight * $time_of_operation * $frequency * $lifespan * $MU_count * $fuel_consumption_rate;
-  }
 
   protected function getHeaderActions(): array
   {
@@ -82,7 +72,7 @@ class ManageOperations extends ManageRecords
                 ->numeric(),
             ])
             ->columns(2)
-            ->afterValidation(fn(Set $set, Get $get) => $set('energy', $this->calculateEnergy(
+            ->afterValidation(fn(Set $set, Get $get) => $set('energy', Helper::calculateEnergy(
               $get('land_amount'),
               $get('weight'),
               $get('time_of_operation'),
@@ -94,10 +84,8 @@ class ManageOperations extends ManageRecords
           Step::make('Result')
             ->description('You can save the operation')
             ->schema([
-              Forms\Components\TextInput::make('energy')
-                ->required()
-                ->disabled()
-                ->numeric(),
+              EnergyValue::make('energy')
+                ->required(),
             ]),
         ]),
     ];
