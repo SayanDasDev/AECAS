@@ -4,13 +4,17 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OperationResource\Pages;
 use App\Filament\Resources\OperationResource\RelationManagers;
+use App\Models\EnergySource;
 use App\Models\Operation;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OperationResource extends Resource
@@ -26,9 +30,17 @@ class OperationResource extends Resource
                 Forms\Components\Select::make('particular_id')
                     ->relationship('particular', 'name')
                     ->native(false)
+                    ->preload()
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set) => $set('energy_source_id', null))
+                    ->searchable()
                     ->required(),
                 Forms\Components\Select::make('energy_source_id')
-                    ->relationship('energySource', 'name')
+                    ->options(fn (Get $get) => EnergySource::query()
+                        ->where('particular_id', $get('particular_id'))
+                        ->pluck('name', 'id')
+                    )
+                    ->searchable()
                     ->native(false)
                     ->required(),
                 Forms\Components\TextInput::make('name')
