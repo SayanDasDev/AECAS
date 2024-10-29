@@ -27,49 +27,7 @@ class OperationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('particular_id')
-                    ->relationship('particular', 'name')
-                    ->native(false)
-                    ->preload()
-                    ->live()
-                    ->afterStateUpdated(fn (Set $set) => $set('energy_source_id', null))
-                    ->searchable()
-                    ->required(),
-                Forms\Components\Select::make('energy_source_id')
-                    ->options(fn (Get $get) => EnergySource::query()
-                        ->where('particular_id', $get('particular_id'))
-                        ->pluck('name', 'id')
-                    )
-                    ->searchable()
-                    ->native(false)
-                    ->required(),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('land_amount')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('weight')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('time_of_operation')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('frequency')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('lifespan')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('MU_count')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('fuel_consumption_rate')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('energy')
-                    ->required()
-                    ->numeric(),
+
             ]);
     }
 
@@ -83,8 +41,6 @@ class OperationResource extends Resource
                 Tables\Columns\TextColumn::make('energySource.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('land_amount')
                     ->numeric()
                     ->sortable(),

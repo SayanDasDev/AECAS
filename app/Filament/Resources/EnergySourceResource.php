@@ -39,7 +39,6 @@ class EnergySourceResource extends Resource
                 Forms\Components\TextInput::make('energy_equivalent')
                     ->suffix(fn (Get $get): string => ' MJ/' . ($get('unit') ?? 'unit'))
                     ->required()
-                    ->numeric()
                     ->numeric(),
                 Forms\Components\TextInput::make('reference')
                     ->required()

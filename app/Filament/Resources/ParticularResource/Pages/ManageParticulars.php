@@ -9,13 +9,13 @@ use Filament\Support\Enums\MaxWidth;
 
 class ManageParticulars extends ManageRecords
 {
-    protected static string $resource = ParticularResource::class;
+	protected static string $resource = ParticularResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->modalWidth(MaxWidth::ScreenSmall),
-        ];
-    }
+	protected function getHeaderActions(): array
+	{
+		return [
+			Actions\CreateAction::make()
+				->modalWidth(MaxWidth::ScreenSmall),
+		];
+	}
 }
